@@ -8,11 +8,9 @@
         .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
     </style>
 
-    {% for article in articles %}
         <div class="example-wrapper">
-            <h1> {{ article.title }}! ✅</h1>
-            <p> {{ article.content }} </p>
+            <h1> {{ title }}! ✅</h1>
+            <p> {{ content }} </p>
         </div>
-    {% endfor %}
 
 {% endblock %}

@@ -19,32 +19,42 @@ class ArticleRepository extends ServiceEntityRepository
         parent::__construct($registry, Article::class);
     }
 
-    // /**
-    //  * @return Article[] Returns an array of Article objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function getAllRecords($limit = null): array
     {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('a.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        $query = $this->createQueryBuilder('a')
+                      ->select(
+                          'a.id',
+                          'a.title',
+                          'a.content'
+                      )
+                      ->orderBy('a.id', 'ASC');
+        if ($limit) {
+            $query->setMaxResults($limit);
+        }
 
-    /*
-    public function findOneBySomeField($value): ?Article
-    {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $articles = $query->getQuery()->getResult();
+
+        return $articles ?: [];
     }
-    */
+
+    /**
+     * @param int $id
+     * @return array
+     */
+    public function findById($id): array
+    {
+        $query = $this->createQueryBuilder('a')
+                      ->select(
+                          'a.id',
+                          'a.title',
+                          'a.content'
+                      )
+                    ->andWhere('a.id = :id')
+                    ->setParameter('id', $id);
+
+        $articles = $query->getQuery()->getResult();
+
+        return $articles ?: [];
+    }
+
 }

@@ -33,8 +33,8 @@ class ArticleController extends AbstractController
         }
 
         return $this->render('article/show.html.twig', [
-            'title' => $title,
-            'content' => $content,
+            'title' => 'Title',
+            'content' => 'content',
         ]);
     }
 

@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello {{ title }} {% endblock %}
+{% block title %}{% endblock %}
 
 {% block body %}
     <style>
@@ -9,8 +9,18 @@
     </style>
 
         <div class="example-wrapper">
-            <h1> {{ title }}! ✅</h1>
-            <p> {{ content }} </p>
+            <h1> {{ title }}</h1>
+            <p><img src="{{ asset(image) }}" /></p>
+            <p> {{ content | raw  }} </p>
+
+            <h2>Comments</h2>
+{#            {% for comment in article.comments %}#}
+{#                <p>{{ comment.authorName }}</p>#}
+{#                <small>{{ comment.createdAt | date('Y-m-d') }}</small>#}
+{#                <p>{{ comment.content }}</p>#}
+{#            {% endfor %}#}
+
+            <p><a href="{{ path('article_show') }}">Назад</a></p>
         </div>
 
 {% endblock %}

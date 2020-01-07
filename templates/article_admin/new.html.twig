@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Main Page{% endblock %}
+{% block title %}Hello Admin{% endblock %}
 
 {% block body %}
 <style>
@@ -9,12 +9,9 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Main Page! ✅</h1>
-
-    <p><a href="{{ path('admin_article_list') }}">Admin panel</a></p>
-    <p><a href="{{ path('article_show') }}">View articles</a></p>
-
-
-
+    <h1>Create article</h1>
+    {{ include('article_admin/_form.html.twig', {
+        button_text: 'Create!'
+    }) }}
 </div>
 {% endblock %}

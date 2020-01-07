@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Article;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use phpDocumentor\Reflection\DocBlock\Tags\Author;
 
 /**
  * @method Article|null find($id, $lockMode = null, $lockVersion = null)
@@ -25,7 +26,11 @@ class ArticleRepository extends ServiceEntityRepository
                       ->select(
                           'a.id',
                           'a.title',
-                          'a.content'
+                          'a.content',
+                          'a.description',
+                          'a.image',
+                          'a.author',
+                          'a.createdAt'
                       )
                       ->orderBy('a.id', 'ASC');
         if ($limit) {
@@ -47,14 +52,18 @@ class ArticleRepository extends ServiceEntityRepository
                       ->select(
                           'a.id',
                           'a.title',
-                          'a.content'
+                          'a.content',
+                          'a.description',
+                          'a.image',
+                          'a.author',
+                          'a.createdAt'
                       )
                     ->andWhere('a.id = :id')
                     ->setParameter('id', $id);
 
-        $articles = $query->getQuery()->getResult();
+        $article = $query->getQuery()->getOneOrNullResult();
 
-        return $articles ?: [];
+        return $article ?: [];
     }
 
 }

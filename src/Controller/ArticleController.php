@@ -3,10 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Article;
+use App\Repository\CommentRepository;
+use App\services\ShowArticle;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Repository\ArticleRepository;
 
 class ArticleController extends AbstractController
 {
@@ -25,26 +26,11 @@ class ArticleController extends AbstractController
      */
     public function show(EntityManagerInterface $em)
     {
-
-        $repository = $em->getRepository(Article::class);
-        /** @var Article[] $articles */
-        $articles = $repository->getAllRecords();
-        if (!$articles) {
-            throw $this->createNotFoundException('No articles at db');
-        }
-//        foreach ($articles as $article) {
-//            $title   = $article->getTitle();
-//            $content = $article->getContent();
-//        }
-
-//        if (!$article) {
-//            throw $this->createNotFoundException(sprintf('No article for title "%s"', $title));
-//        }
+        $showArticle = new ShowArticle($em);
+        $articles = $showArticle->processed();
 
         return $this->render('article/show.html.twig', [
             'articles' => $articles,
-//            'title' => 'Title',
-//            'content' => 'content',
         ]);
     }
 
@@ -56,15 +42,15 @@ class ArticleController extends AbstractController
 
         $repository = $em->getRepository(Article::class);
         /** @var Article $article */
-//        $articles = $repository->find(['id' => $id]);
         $article = $repository->findById($id);
         if (!$article) {
             throw $this->createNotFoundException('No this articles at db');
         }
 
         return $this->render('article/one.html.twig', [
-            'title' => $article->getTitle(),
-            'content' => $article->getContent()
+            'title' => $article['title'],
+            'content' => $article['content'],
+            'image'=> $article['image'],
         ]);
     }
 
